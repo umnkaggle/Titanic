@@ -1,0 +1,8 @@
+# add files or extensions to ignore when using git
+
+# example files from website
+genderclassmodel.csv
+genderclassmodel.py
+gendermodel.csv
+gendermodel.py
+myfirstforest.py
