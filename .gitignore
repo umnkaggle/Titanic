@@ -8,3 +8,4 @@ gendermodel.py
 myfirstforest.py
 
 .ipynb_checkpoints*
+*.swp
