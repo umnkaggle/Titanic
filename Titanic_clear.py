@@ -27,6 +27,11 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.cross_validation import cross_val_score
 from sklearn.cross_validation import train_test_split
 
+# Note: you can organize your code to read just like R where
+#     the script is executed line by line top from top down.
+#     I've split everything up into functions and a main so
+#     the code is reusable and functions can be imported just
+#     as a library like pandas or numpy.
 
 def categorical_describe(df):
     return df[df.columns[df.dtypes == 'object']].describe()
