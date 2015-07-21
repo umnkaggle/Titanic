@@ -44,7 +44,7 @@ def build_dummies(df):
         df.drop(variable, axis=1, inplace=True)
     return df
 
-def cv_score(model, df):
+def _cv_score(model, df):
     X = df.drop('Survived', axis=1)
     y = df['Survived']
     scores = []
@@ -55,15 +55,15 @@ def cv_score(model, df):
         scores.append(model.score(X_test, y_test))
     return np.mean(scores)
 
-def clean_up(df):
+def _clean_up(df):
     df['FamilySize'] = df['SibSp'] + df['Parch'] + 1
     df['Family'] = df['Name'].apply(lambda name: name.split(',')[0]) +\
             df['FamilySize'].apply(lambda size: str(size))
     df.drop(['Ticket', 'Cabin', 'Embarked', 'Name'], axis=1,
             inplace=True)
-    return age_fill(df)
+    return _age_fill(df)
 
-def age_fill(df):
+def _age_fill(df):
     df_age = build_dummies(df).dropna().copy()
     X = df_age.drop(['Age', 'Survived'], axis=1)
     y = df_age['Age']
@@ -79,9 +79,9 @@ if __name__ == '__main__':
     # prep data
     train = pd.read_csv('train.csv', index_col='PassengerId')
     test  = pd.read_csv('test.csv', index_col='PassengerId')
-    train_clean = clean_up(train)
+    train_clean = _clean_up(train)
 
     # modeling
     rf = RandomForestClassifier(n_estimators=100)
-    rf_scores = cv_score(rf, train_clean)
+    rf_scores = _cv_score(rf, train_clean)
     print rf_scores
