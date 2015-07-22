@@ -64,7 +64,8 @@ def _clean_up(df):
     return _age_fill(df)
 
 def _age_fill(df):
-    df_age = build_dummies(df).dropna().copy()
+    df = build_dummies(df)
+    df_age = df.dropna().copy()
     X = df_age.drop(['Age', 'Survived'], axis=1)
     y = df_age['Age']
     age_ols = sm.OLS(y,X).fit()
