@@ -26,6 +26,7 @@ import statsmodels.api as sm
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.cross_validation import cross_val_score
 from sklearn.cross_validation import train_test_split
+from sklearn.grid_search import GridSearchCV
 
 # Note: you can organize your code to read just like R where
 #     the script is executed line by line top from top down.
@@ -74,6 +75,12 @@ def _age_fill(df):
     df['Age'][df['Age'].isnull()] = age_ols.predict(df_age_missing)
     return df
 
+def parameter_sweep(model, df, param_grid):
+    X = df.drop('Survived', axis=1)
+    y = df['Survived']
+    clf = GridSearchCV(model, param_grid)
+    clf.fit(X,y)
+    return clf.grid_scores_
 
 if __name__ == '__main__':
 
@@ -83,6 +90,15 @@ if __name__ == '__main__':
     train_clean = _clean_up(train)
 
     # modeling
+    param_grid = {'n_estimators': range(40, 160, 10)}
+    p =  parameter_sweep(RandomForestClassifier(), train_clean, param_grid)
+    p # for some reason when printing p the output isn't formatted
     rf = RandomForestClassifier(n_estimators=100)
     rf_scores = _cv_score(rf, train_clean)
     print rf_scores
+
+
+
+
+
+
