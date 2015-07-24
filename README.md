@@ -14,5 +14,6 @@ Public (for now) repository of our groups material.
 **How to get started:**
 - **Clone a repo**
 ```shell
-$ git clone https://github.com/umnkaggle/REPONAME.git # replace REPONAME with the repo to be cloned
+# replace REPONAME with the repo to be cloned
+$ git clone https://github.com/umnkaggle/REPONAME.git 
 ```
