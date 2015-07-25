@@ -67,11 +67,17 @@ def _clean_up(df):
 def _age_fill(df):
     df = build_dummies(df)
     df_age = df.dropna().copy()
-    X = df_age.drop(['Age', 'Survived'], axis=1)
+    if 'Survived' in df_age.columns:
+        X = df_age.drop(['Age', 'Survived'], axis=1)
+    else:
+        X = df_age.drop(['Age'], axis=1)
     y = df_age['Age']
     age_ols = sm.OLS(y,X).fit()
     df_age_missing = df[df['Age'].isnull()]
-    df_age_missing.drop(['Age','Survived'], axis=1, inplace=True)
+    if 'Survived' in df_age.columns:
+        df_age_missing.drop(['Age','Survived'], axis=1, inplace=True)
+    else:
+        df_age_missing.drop(['Age'], axis=1, inplace=True)
     df['Age'][df['Age'].isnull()] = age_ols.predict(df_age_missing)
     return df
 
@@ -96,8 +102,6 @@ if __name__ == '__main__':
     rf = RandomForestClassifier(n_estimators=100)
     rf_scores = _cv_score(rf, train_clean)
     print rf_scores
-
-
 
 
 
